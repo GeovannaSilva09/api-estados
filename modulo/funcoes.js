@@ -29,38 +29,130 @@ const getAllestados = function(){
 
 //Retorna dados do estado filtrando pela sigla 
 const getEstadoBySigla = function(sigla){
-  
+
+    let message = {status: true, statuscode: 200, development: 'Geovanna Silva de Sousa', uf: '', descricao: '', capital: '', regiao: ''}
+
+    const estadoRecebido = dados.listaDeEstados.estados.find(function(item){
+        return item.sigla.toUpperCase() === sigla.toUpperCase()
+    })
+
+    if(estadoRecebido ){
+        message.uf = estadoRecebido.sigla
+        message.descricao = estadoRecebido.nome
+        message.capital = estadoRecebido.capital
+        message.regiao = estadoRecebido.regiao
+        return message
+    }else
+        return MESSAGE_ERROR
 
 }
+
+
 
 //Retorna a capital do estado filtrando pela sigla 
 const getCapitalBySigla = function(sigla){
-    let message = {status: true, statuscode: 200, development: 'Geovanna Silva de Sousa', uf: [], descricao: [], capital: []}
+    let message = {status: true, statuscode: 200, development: 'Geovanna Silva de Sousa', uf: '', descricao: '', capital: ''}
 
-    // Procurar o estado que tem a sigla igual à passada (ignorar maiúsculas/minúsculas)
-     dados.listaDeEstados.estados.find(function(item){
-        return item.uf.toUpperCase() === sigla.toUpperCase()
+    // Procurar o estado que tem a sigla igual à passada (ignorando maiúsculas/minúsculas)
+     const capitalSigla  = dados.listaDeEstados.estados.find(function(item){
+        return item.sigla.toUpperCase() === sigla.toUpperCase()
     })
 
+    if(capitalSigla){
+        message.uf = capitalSigla.sigla
+        message.descricao = capitalSigla.nome
+        message.capital = capitalSigla.capital
+        return message
+    }else
+        return MESSAGE_ERROR
     
 }
 
+
+
 //Retorna a lista de estados filtrando pela região
 const getEstadosByRegiao = function(regiao){
+    let message = {status: true, statuscode: 200, development: 'Geovanna Silva de Sousa', regiao: '', estados: []}
+
+    const regiaoEstados = dados.listaDeEstados.estados.filter(function(item){
+          return item.regiao.toUpperCase() === regiao.toUpperCase()
+    })
+ 
+
+    if(regiaoEstados.length > 0){
+       message.regiao = regiao
+      regiaoEstados.forEach(function(estados){
+        message.estados.push({uf: estados.sigla, descricao: estados.nome})
+        })
+        return message
+    }else
+        return MESSAGE_ERROR
 
 }
 
 //Retorna a lista de estado que formam a capital de um país filtrando pelo país
 const getEstadosIsCapitalByCountry = function(pais){
+    let message = {status: true, statuscode: 200, development: 'Geovanna Silva de Sousa', capitais: []}
+
+    if(pais === dados.listaDeEstados.pais){
+        for (let i = 0; i < dados.listaDeEstados.estados.length; i++) {
+
+            if(estado.capital_pais){
+                let capitalInformacoes = {
+                    uf: estado.sigla,
+                    descricao: estado.nome,
+                    capital: estado.capital,
+                    regiao: estado.regiao,
+                    capital_pais_ano_inicio: estado.capital_pais_ano_inicio,
+                    capital_pais_ano_termino: estado.capital_pais_ano_termino,
+                    capital_atual: estado.capital_atual,
+                }
+            }
+        }
+    }else{
+        return MESSAGE_ERROR
+    }
+    
+    return message
 
 }
 
 //Retorna as cidades existentes em um estado, filtrando pela sigla 
 const getCidadesBySigla = function(sigla){
+    let message = {status: true, statuscode: 200, development: 'Geovanna Silva de Sousa', uf: '', descricao: '', quantidade_cidades: '', cidades: []}
+
+    const cidadesRecebidas = dados.listaDeEstados.estados.find(function(item){
+        return item.sigla.toUpperCase() === sigla.toUpperCase()
+    })
+
+    if(cidadesRecebidas ){
+        message.uf = cidadesRecebidas.sigla
+        message.descricao = cidadesRecebidas.nome
+        message.cidades = cidadesRecebidas.cidades.map(cidades => cidades.nome)
+        message.quantidade_cidades = message.cidades.length
+        return message
+    }else
+        return MESSAGE_ERROR
 
 }
+
+
 
 
 module.exports = {
     getAllestados
 }
+
+
+/*sigla : 'DF',
+nome  : 'Distrito Federal',
+capital: 'Brasília',
+capital_pais: { capital: true, 
+                ano_inicio: 1960, 
+                ano_fim: false
+              },
+regiao: 'Centro-Oeste',
+cidades:[
+    {
+       "nome":"Brasília",
+       "id":"5565"*/
