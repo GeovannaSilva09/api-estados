@@ -47,8 +47,6 @@ const getEstadoBySigla = function(sigla){
 
 }
 
-
-
 //Retorna a capital do estado filtrando pela sigla 
 const getCapitalBySigla = function(sigla){
     let message = {status: true, statuscode: 200, development: 'Geovanna Silva de Sousa', uf: '', descricao: '', capital: ''}
@@ -67,8 +65,6 @@ const getCapitalBySigla = function(sigla){
         return MESSAGE_ERROR
     
 }
-
-
 
 //Retorna a lista de estados filtrando pela região
 const getEstadosByRegiao = function(regiao){
@@ -96,6 +92,7 @@ const getEstadosIsCapitalByCountry = function(pais){
 
     if(pais === dados.listaDeEstados.pais){
         for (let i = 0; i < dados.listaDeEstados.estados.length; i++) {
+            const estado = dados.listaDeEstados.estados[i]
 
             if(estado.capital_pais){
                 let capitalInformacoes = {
@@ -107,6 +104,7 @@ const getEstadosIsCapitalByCountry = function(pais){
                     capital_pais_ano_termino: estado.capital_pais_ano_termino,
                     capital_atual: estado.capital_atual,
                 }
+                message.capitais.push(capitalInformacoes)
             }
         }
     }else{
@@ -128,7 +126,7 @@ const getCidadesBySigla = function(sigla){
     if(cidadesRecebidas ){
         message.uf = cidadesRecebidas.sigla
         message.descricao = cidadesRecebidas.nome
-        message.cidades = cidadesRecebidas.cidades.map(cidades => cidades.nome)
+        message.cidades = cidadesRecebidas.cidades.map(cidades => cidades.nome) 
         message.quantidade_cidades = message.cidades.length
         return message
     }else
@@ -137,10 +135,13 @@ const getCidadesBySigla = function(sigla){
 }
 
 
-
-
 module.exports = {
-    getAllestados
+    getAllestados,
+    getEstadoBySigla,
+    getCapitalBySigla,
+    getEstadosByRegiao,
+    getEstadosIsCapitalByCountry,
+    getCidadesBySigla
 }
 
 

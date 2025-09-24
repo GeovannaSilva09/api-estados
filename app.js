@@ -43,27 +43,54 @@ app.get('/v1/estados', function(request, response){
     response.json(estados)
 })
 
+//getEstadoBySigla
 app.get('/v1/estado/:uf', function(request, response){
     let sigla = request.params.uf
+    let estado = dados.getEstadoBySigla(sigla)
 
-    console.log(sigla)
+    response.status(estado.statuscode)
+    response.json(estado)
 })
 
-app.get('/v1/regiao/estado/:id', function(request, response){
-    let regiaoEstados = request.query.regiao
-    let sigla         = request.query.uf
-    let id            = request.params.id
+
+//getCapitalbySigla
+app.get('/v1/capital/estado/:uf', function(request, response){
+    let sigla = request.params.uf
+    let capital = dados.getCapitalBySigla(sigla)
     
-    console.log(regiaoEstados)
-    console.log(sigla)
-    console.log(id)
+    response.status(capital.statuscode)
+    response.json(capital)
 })
 
-app.get('/v1/regiao/estado/:capital', function(request, response){
-    let capitalEstados = request.query.capital
+//getEstadosbyRegiao
+app.get('/v1/regiao/estado/:regiao', function(request, response){
+    let regiao = request.params.regiao
+    let estado = dados.getEstadosByRegiao(regiao)
 
-    console.log(capitalEstados)
+    response.status(estado.statuscode)
+    response.json(estado)
+})/
+
+
+//getEstadosIsCapitalByCountry
+app.get('/v1/pais/estado/', function(request, response){
+    let pais = request.query.pais
+    let isCapital = dados.getEstadosIsCapitalByCountry(pais)
+
+    response.status(isCapital.statuscode)
+    response.json(isCapital)
 })
+
+
+//getCidadesBysigla
+app.get('/v1/cidades/estado/:uf', function(request, response){
+    let sigla = request.params.uf
+    let cidades = dados.getCidadesBySigla(sigla)
+
+    response.status(cidades.statuscode)
+    response.json(cidades)
+})
+
 
 app.listen(PORT, function(){
     console.log('API aguardando requisições....')
